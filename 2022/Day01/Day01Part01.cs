@@ -1,35 +1,21 @@
 using SimpleMind.AdventOfCode;
+using AdventOfCode2022.Common;
 
 namespace AdventOfCode2022.Day01;
 
-public class Day01Part01 : Puzzle<List<ElfInventory>>
+public class Day01Part01 : Puzzle<IEnumerable<ElfInventory>>
 {
     public override string SampleAnswer => "24000";
 
-    protected override List<ElfInventory> ParseInputImpl(string rawInput)
+    protected override IEnumerable<ElfInventory> ParseInputImpl(string rawInput)
     {
-        string[] lines = rawInput.Split(Environment.NewLine);
-        return ParseInventories(lines).ToList();
-
-        static IEnumerable<ElfInventory> ParseInventories(IEnumerable<string> input)
-        {
-            var buffer = new List<int>();
-            foreach (string line in input)
-            {
-                if (string.IsNullOrWhiteSpace(line))
-                {
-                    yield return new ElfInventory(buffer);
-                    buffer = new List<int>();
-                    continue;
-                }
-
-                buffer.Add(int.Parse(line));
-            }
-
-            yield return new ElfInventory(buffer);
-        }
+        return rawInput
+            .Split(Environment.NewLine)
+            .ChunkOn(l => string.IsNullOrWhiteSpace(l))
+            .Select(chunk => Array.ConvertAll(chunk, int.Parse))
+            .Select(chunk => new ElfInventory(chunk));
     }
 
-    protected override string SolveImpl(List<ElfInventory> parsedInput)
+    protected override string SolveImpl(IEnumerable<ElfInventory> parsedInput)
         => parsedInput.Max(x => x.TotalCalories).ToString() ?? "";
 }
