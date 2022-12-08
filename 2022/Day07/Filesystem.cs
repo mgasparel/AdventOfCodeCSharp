@@ -5,20 +5,20 @@ public class FileSystem
     public List<FileSystemNode> Nodes { get; } = new();
     private readonly IEnumerable<string> _terminalOutput;
     private readonly Stack<FileSystemNode> _currentNodes = new();
-    private readonly FileSystemNode _root;
+    private FileSystemNode? ParentNode => _currentNodes.Any() ? _currentNodes.Peek() : null;
 
-    public FileSystemNode? ParentNode => _currentNodes.Any() ? _currentNodes.Peek() : null;
+    public FileSystemNode Root { get; private set; }
 
     public FileSystem(IEnumerable<string> terminalOutput)
     {
         _terminalOutput = terminalOutput;
-        _root = new FileSystemNode("/", 0, "dir");
-        Nodes.Add(_root);
+        Root = new FileSystemNode("/", 0, "dir");
+        Nodes.Add(Root);
     }
 
     public void UpdateFolderSizes()
     {
-        _ = WalkNodes(_root);
+        _ = WalkNodes(Root);
     }
 
     public int WalkNodes(FileSystemNode node)
@@ -40,7 +40,7 @@ public class FileSystem
 
     public void PrintFileSystem()
     {
-        WalkNodesPrint(_root, 0);
+        WalkNodesPrint(Root, 0);
     }
 
     public int WalkNodesPrint(FileSystemNode node, int tabSize)
