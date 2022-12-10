@@ -6,8 +6,19 @@ public class RopeBridge
 {
     private readonly List<Instruction> _instructions;
     private readonly List<Point> _visited;
-    private Point _head = new(0, 0);
-    private Point _tail = new(0, 0);
+    private readonly Point[] _knots;
+
+    private Point Head
+    {
+        get => _knots[0];
+        set => _knots[0] = value;
+    }
+
+    private Point Tail
+    {
+        get => _knots[1];
+        set => _knots[1] = value;
+    }
 
     public int CountVisited()
         => _visited.Distinct().Count();
@@ -15,7 +26,11 @@ public class RopeBridge
     public RopeBridge(List<Instruction> instructions)
     {
         _instructions = instructions;
-        _visited = new() { _tail }; // Remember that we visited the origin!
+        _knots = Enumerable.Range(0, 2)
+            .Select(x => new Point(0, 0))
+            .ToArray();
+
+        _visited = new() { Tail }; // Remember that we visited the origin!
     }
 
     public void Simulate()
@@ -26,71 +41,79 @@ public class RopeBridge
             for (int i = 0; i < instruction.Count; i++)
             {
                 MoveHead(instruction.Direction);
-                MoveTail();
+
+                Point leader = Head;
+                for (int j = 1; j < _knots.Length; j++)
+                {
+                    _knots[j] = MoveKnot(_knots[j], leader);
+                    leader = _knots[j];
+                }
+                _visited.Add(leader); //leader is know the tail.
                 PrintState();
             }
         }
     }
 
     private void MoveHead(Direction direction)
-        => _head = MovePoint(_head, direction);
+        => Head = MovePoint(Head, direction);
 
-    private void MoveTail()
+    private Point MoveKnot(Point follower, Point leader)
     {
-        if (!ShouldMoveTail())
+        if (!ShouldMoveKnot(follower, leader))
         {
-            return;
+            return follower;
         }
 
-        MoveTail(GetDirectionToHeadX(), GetDirectionToHeadY());
+        return MoveKnot(Tail, GetDirectionToHeadX(follower, leader), GetDirectionToHeadY(follower, leader));
     }
 
-    private void MoveTail(Direction x, Direction y)
+    private static Point MoveKnot(Point knot, Direction x, Direction y)
     {
+        Point newKnot = knot with { };
         if (x != Direction.None)
         {
-            _tail = MovePoint(_tail, x);
+            newKnot = MovePoint(newKnot, x);
         }
 
         if (y != Direction.None)
         {
-            _tail = MovePoint(_tail, y);
+            newKnot = MovePoint(newKnot, y);
         }
 
-        _visited.Add(_tail);
+        return newKnot;
     }
 
-    private Direction GetDirectionToHeadX()
+    private static Direction GetDirectionToHeadX(Point follower, Point leader)
     {
-        if (_head.X == _tail.X)
+        if (leader.X == follower.X)
         {
             return Direction.None;
         }
 
-        return _head.X > _tail.X
+        return leader.X > follower.X
             ? Direction.Right
             : Direction.Left;
     }
 
-    private Direction GetDirectionToHeadY()
+    private Direction GetDirectionToHeadY(Point follower, Point leader)
     {
-        if (_head.Y == _tail.Y)
+        if (leader.Y == follower.Y)
         {
             return Direction.None;
         }
 
-        return _head.Y > _tail.Y
+        return leader.Y > follower.Y
             ? Direction.Up
             : Direction.Down;
     }
 
-    private bool ShouldMoveTail()
-        => Math.Abs(_head.X - _tail.X) > 1 ||
-            Math.Abs(_head.Y - _tail.Y) > 1;
+    private static bool ShouldMoveKnot(Point follower, Point leader)
+        => Math.Abs(leader.X - follower.X) > 1 ||
+            Math.Abs(leader.Y - follower.Y) > 1;
 
     private void PrintState()
     {
-        Console.WriteLine($"H: ({_head.X},{_head.Y}), T: ({_tail.X},{_tail.Y})");
+        //Console.WriteLine($"H: ({_head.X},{_head.Y}), T: ({_tail.X},{_tail.Y})");
     }
 
     private static Point MovePoint(Point p, Direction d)
