@@ -13,78 +13,56 @@ public class Forest
     {
         for (int x = 0; x < Trees.Length; x++)
         {
-            for (int y = 0; y < Trees.Length; y++)
+            int? highest = null;
+            for (int y = 0; y < Trees[x].Length; y++)
             {
-                if (IsVisible(x, y))
+                int currentHeight = Trees[x][y].Height;
+                if (highest is null || currentHeight > highest)
                 {
                     Trees[x][y] = Trees[x][y] with { Visible = true };
                     Console.WriteLine($"({x},{y}) {Trees[x][y]}");
-                    continue;
+                    highest = currentHeight;
                 }
-                Console.WriteLine($"({x},{y}) {Trees[x][y]}");
             }
-        }
-    }
 
-    private bool IsVisible(int x, int y)
-    {
-        return IsVisibleFromTop(x, y) ||
-            IsVisibleFromRight(x, y) ||
-            IsVisibleFromBottom(x, y) ||
-            IsVisibleFromLeft(x, y);
-    }
-
-    private bool IsVisibleFromTop(int x, int y)
-    {
-        int height = Trees[x][y].Height;
-        for (int i = y - 1; i >= 0; i--)
-        {
-            if (Trees[x][i].Height >= height)
+            highest = null;
+            for (int y = Trees[x].Length - 1; y >= 0; y--)
             {
-                return false;
+                int currentHeight = Trees[x][y].Height;
+                if (highest is null || currentHeight > highest)
+                {
+                    Trees[x][y] = Trees[x][y] with { Visible = true };
+                    Console.WriteLine($"({x},{y}) {Trees[x][y]}");
+                    highest = currentHeight;
+                }
             }
         }
-        return true;
-    }
 
-    private bool IsVisibleFromBottom(int x, int y)
-    {
-        int height = Trees[x][y].Height;
-        int startIndex = Math.Clamp(y + 1, 0, Trees.Length - 1);
-        for (int i = startIndex; i < Trees.Length; i++)
+        for (int y = 0; y < Trees.Length; y++)
         {
-            if (Trees[x][i].Height >= height)
+            int? highest = null;
+            for (int x = 0; x < Trees.Length; x++)
             {
-                return false;
+                int currentHeight = Trees[x][y].Height;
+                if (highest is null || currentHeight > highest)
+                {
+                    Trees[x][y] = Trees[x][y] with { Visible = true };
+                    Console.WriteLine($"({x},{y}) {Trees[x][y]}");
+                    highest = currentHeight;
+                }
             }
-        }
-        return true;
-    }
 
-    private bool IsVisibleFromLeft(int x, int y)
-    {
-        int height = Trees[x][y].Height;
-        for (int i = x - 1; i >= 0; i--)
-        {
-            if (Trees[i][y].Height >= height)
+            highest = null;
+            for (int x = Trees.Length - 1; x >= 0; x--)
             {
-                return false;
+                int currentHeight = Trees[x][y].Height;
+                if (highest is null || currentHeight > highest)
+                {
+                    Trees[x][y] = Trees[x][y] with { Visible = true };
+                    Console.WriteLine($"({x},{y}) {Trees[x][y]}");
+                    highest = currentHeight;
+                }
             }
         }
-        return true;
-    }
-
-    private bool IsVisibleFromRight(int x, int y)
-    {
-        int height = Trees[x][y].Height;
-        int startIndex = Math.Clamp(x + 1, 0, Trees[x].Length - 1);
-        for (int i = startIndex; i < Trees[x].Length; i++)
-        {
-            if (Trees[i][y].Height >= height)
-            {
-                return false;
-            }
-        }
-        return true;
     }
 }
