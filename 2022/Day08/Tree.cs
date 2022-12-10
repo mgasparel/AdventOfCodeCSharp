@@ -1,3 +1,3 @@
 namespace AdventOfCode2022;
 
-public record Tree(int Height, bool Visible = false);
+public record Tree(int Height, bool Visible = false, int ViewDistanceLeft = 0, int ViewDistanceRight = 0, int ViewDistanceUp = 0, int ViewDistanceDown = 0);
