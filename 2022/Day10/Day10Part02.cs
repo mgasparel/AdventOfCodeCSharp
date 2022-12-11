@@ -1,10 +1,13 @@
-using SimpleMind.AdventOfCode;
-
 namespace AdventOfCode2022.Day10;
 
-public class Day10Part01 : Puzzle<List<Instruction>>
+public class Day10Part02 : Day10Part01
 {
-    public override string SampleAnswer => "13140";
+    public override string SampleAnswer => @"##..##..##..##..##..##..##..##..##..##..
+###...###...###...###...###...###...###.
+####....####....####....####....####....
+#####.....#####.....#####.....#####.....
+######......######......######......####
+#######.......#######.......#######.....";
 
     protected override List<Instruction> ParseInputImpl(string rawInput)
         => rawInput.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
@@ -16,5 +19,9 @@ public class Day10Part01 : Puzzle<List<Instruction>>
             .ToList();
 
     protected override string SolveImpl(List<Instruction> input)
-        => new CPU().Run(input, new CRT()).ToString();
+    {
+        var crt = new CRT();
+        _ = new CPU().Run(input, crt);
+        return crt.DumpBuffer();
+    }
 }

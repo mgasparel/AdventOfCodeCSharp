@@ -4,7 +4,7 @@ public class CPU
 {
     public int X { get; private set; } = 1;
 
-    public int Run(List<Instruction> instructions)
+    public int Run(List<Instruction> instructions, CRT crt)
     {
         var e = instructions.GetEnumerator();
         e.MoveNext();
@@ -25,8 +25,10 @@ public class CPU
             {
                 int signalStrength = cycle * X;
                 totalSignalStrength += signalStrength;
-                Console.WriteLine($"Cycle: {cycle}, X: {X}, SignalStrength: {signalStrength}, TotalSS: {totalSignalStrength}");
+                //Console.WriteLine($"Cycle: {cycle}, X: {X}, SignalStrength: {signalStrength}, TotalSS: {totalSignalStrength}");
             }
+
+            crt.Draw(X);
 
             if (command == "noop")
             {
@@ -40,6 +42,8 @@ public class CPU
                 complete = !e.MoveNext();
             }
         }
+
+        crt.DrawBuffer();
 
         return totalSignalStrength;
     }
