@@ -7,6 +7,8 @@ public class Day09Part01 : Puzzle<RopeBridge>
 {
     public override string SampleAnswer => "13";
 
+    protected virtual int NumKnots => 2;
+
     protected override RopeBridge ParseInputImpl(string rawInput)
         => new (rawInput.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
             .Select(x =>
@@ -27,7 +29,7 @@ public class Day09Part01 : Puzzle<RopeBridge>
 
     protected override string SolveImpl(RopeBridge input)
     {
-        input.Simulate();
+        input.Simulate(NumKnots);
         return input.CountVisited().ToString();
     }
 }

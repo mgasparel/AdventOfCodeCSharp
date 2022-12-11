@@ -5,8 +5,8 @@ namespace AdventOfCode2022;
 public class RopeBridge
 {
     private readonly List<Instruction> _instructions;
-    private readonly List<Point> _visited;
-    private readonly Point[] _knots;
+    private List<Point> _visited;
+    private Point[] _knots;
 
     private Point Head
     {
@@ -26,18 +26,27 @@ public class RopeBridge
     public RopeBridge(List<Instruction> instructions)
     {
         _instructions = instructions;
-        _knots = Enumerable.Range(0, 2)
+        _visited = new();
+        _knots = Array.Empty<Point>();
+    }
+
+    private void InitializeRope(int numKnots)
+    {
+        _knots = Enumerable.Range(0, numKnots)
             .Select(x => new Point(0, 0))
             .ToArray();
 
         _visited = new() { Tail }; // Remember that we visited the origin!
     }
 
-    public void Simulate()
+    public void Simulate(int numKnots)
     {
+        InitializeRope(numKnots);
         PrintState();
         foreach (Instruction instruction in _instructions)
         {
+            PrintInstruction(instruction);
+
             for (int i = 0; i < instruction.Count; i++)
             {
                 MoveHead(instruction.Direction);
@@ -49,9 +58,14 @@ public class RopeBridge
                     leader = _knots[j];
                 }
                 _visited.Add(leader); //leader is know the tail.
-                PrintState();
             }
+            PrintState();
         }
+    }
+
+    private void PrintInstruction(Instruction instruction)
+    {
+        //Console.WriteLine(Environment.NewLine + "==" + instruction.Direction + " " + instruction.Count + "==" + Environment.NewLine);
     }
 
     private void MoveHead(Direction direction)
@@ -64,7 +78,7 @@ public class RopeBridge
             return follower;
         }
 
-        return MoveKnot(Tail, GetDirectionToHeadX(follower, leader), GetDirectionToHeadY(follower, leader));
+        return MoveKnot(follower, GetDirectionToHeadX(follower, leader), GetDirectionToHeadY(follower, leader));
     }
 
     private static Point MoveKnot(Point knot, Direction x, Direction y)
@@ -113,7 +127,60 @@ public class RopeBridge
 
     private void PrintState()
     {
-        //Console.WriteLine($"H: ({_head.X},{_head.Y}), T: ({_tail.X},{_tail.Y})");
+        return;
+        int minX, minY = minX = int.MaxValue;
+        int maxX, maxY = maxX = 5;
+
+        foreach (Point p in _knots.Append(new Point(0, 0)))
+        {
+            if (p.X < minX)
+            {
+                minX = p.X;
+            }
+            if (p.Y < minY)
+            {
+                minY = p.Y;
+            }
+            if (p.X > maxX)
+            {
+                maxX = p.X;
+            }
+            if (p.Y > maxY)
+            {
+                maxY = p.Y;
+            }
+        }
+        int offsetX = 0;
+        int offsetY = 0;
+
+        if (minX < 0)
+        {
+            offsetX = Math.Abs(minX);
+        }
+        if (minY < 0)
+        {
+            offsetY = Math.Abs(minY);
+        }
+
+        var grid = new List<char[]>(maxY + offsetY);
+        for (int i = 0; i <= maxY + offsetY; i++)
+        {
+            grid.Add(new string('.', maxX + 1 + offsetX).ToCharArray());
+        }
+
+        grid[0][0] = 'O';
+        for (int i = 1; i < _knots.Length; i++)
+        {
+            var knot = _knots[i];
+            grid[knot.Y + offsetY][knot.X + offsetX] = i.ToString().First();
+        }
+        grid[Head.Y + offsetY][Head.X + offsetX] = 'H';
+
+        for (int i = grid.Count - 1; i >= 0; i--)
+        {
+            var line = grid[i];
+            Console.WriteLine(line);
+        }
     }
 
     private static Point MovePoint(Point p, Direction d)
