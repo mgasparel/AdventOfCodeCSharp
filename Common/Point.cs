@@ -1,4 +1,4 @@
-namespace AdventOfCode2022.Common;
+namespace AdventOfCode.Common;
 
 public record Point(int X, int Y);
 

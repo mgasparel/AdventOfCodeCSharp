@@ -1,4 +1,4 @@
-namespace AdventOfCode2022.Common;
+namespace AdventOfCode.Common;
 
 public static class EnumerableExtensions
 {

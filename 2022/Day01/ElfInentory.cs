@@ -1,4 +1,4 @@
-namespace AdventOfCode2022.Day01;
+namespace AdventOfCode.Year2022;
 
 public class ElfInventory
 {

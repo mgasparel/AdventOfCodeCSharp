@@ -1,7 +1,7 @@
 using SimpleMind.AdventOfCode;
-using AdventOfCode2022.Common;
+using AdventOfCode.Common;
 
-namespace AdventOfCode2022;
+namespace AdventOfCode.Year2022;
 
 public class Day09Part01 : Puzzle<RopeBridge>
 {

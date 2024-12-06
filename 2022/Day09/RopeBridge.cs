@@ -1,6 +1,6 @@
-using AdventOfCode2022.Common;
+using AdventOfCode.Common;
 
-namespace AdventOfCode2022;
+namespace AdventOfCode.Year2022;
 
 public class RopeBridge
 {
@@ -125,6 +125,7 @@ public class RopeBridge
         => Math.Abs(leader.X - follower.X) > 1 ||
             Math.Abs(leader.Y - follower.Y) > 1;
 
+#pragma warning disable CS0162 // Unreachable code detected
     private void PrintState()
     {
         return;
@@ -182,6 +183,7 @@ public class RopeBridge
             Console.WriteLine(line);
         }
     }
+#pragma warning restore CS0162 // Unreachable code detected
 
     private static Point MovePoint(Point p, Direction d)
         => d switch

@@ -1,4 +1,4 @@
-namespace AdventOfCode2022;
+namespace AdventOfCode.Year2022;
 
 public class Day02Part02 : Day02Part01
 {

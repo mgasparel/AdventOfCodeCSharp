@@ -1,4 +1,4 @@
-namespace AdventOfCode2022.Day10;
+namespace AdventOfCode.Year2022.Day10;
 
 public class Instruction
 {

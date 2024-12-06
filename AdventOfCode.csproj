@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <PackageReference Include="SimpleMind.AdventOfCode" Version="1.0.3" />
+    <PackageReference Include="SimpleMind.AdventOfCode" Version="1.0.4" />
   </ItemGroup>
 
   <PropertyGroup>

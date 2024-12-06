@@ -1,7 +1,7 @@
 using SimpleMind.AdventOfCode;
 using System.Collections.Immutable;
 
-namespace AdventOfCode.Year2024.Day01;
+namespace AdventOfCode.Year2024;
 
 public class Day01Part01 : Puzzle<(int[] l, int[] r)>
 {

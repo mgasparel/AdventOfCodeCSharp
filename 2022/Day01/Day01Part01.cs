@@ -1,7 +1,7 @@
 using SimpleMind.AdventOfCode;
-using AdventOfCode2022.Common;
+using AdventOfCode.Common;
 
-namespace AdventOfCode2022.Day01;
+namespace AdventOfCode.Year2022;
 
 public class Day01Part01 : Puzzle<IEnumerable<ElfInventory>>
 {

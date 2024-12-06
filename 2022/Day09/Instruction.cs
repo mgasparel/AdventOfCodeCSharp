@@ -1,5 +1,5 @@
-using AdventOfCode2022.Common;
+using AdventOfCode.Common;
 
-namespace AdventOfCode2022;
+namespace AdventOfCode.Year2022;
 
 public record Instruction(Direction Direction, int Count);
