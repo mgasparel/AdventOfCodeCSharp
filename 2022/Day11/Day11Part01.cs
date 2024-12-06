@@ -1,10 +1,10 @@
 using System.Numerics;
 
-using AdventOfCode2022.Common;
+using AdventOfCode.Common;
 
 using SimpleMind.AdventOfCode;
 
-namespace AdventOfCode2022;
+namespace AdventOfCode.Year2022;
 
 public class Day11Part01 : Puzzle<List<Monkey>>
 {

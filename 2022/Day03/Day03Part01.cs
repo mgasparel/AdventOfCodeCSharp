@@ -1,6 +1,6 @@
 using SimpleMind.AdventOfCode;
 
-namespace AdventOfCode2022;
+namespace AdventOfCode.Year2022;
 
 public class Day03Part01 : Puzzle<IEnumerable<Rucksack>>
 {

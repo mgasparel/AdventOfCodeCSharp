@@ -1,8 +1,8 @@
-using AdventOfCode2022.Common;
+using AdventOfCode.Common;
 
 using SimpleMind.AdventOfCode;
 
-namespace AdventOfCode2022;
+namespace AdventOfCode.Year2022;
 
 public class Day08Part01 : Puzzle<Forest>
 {

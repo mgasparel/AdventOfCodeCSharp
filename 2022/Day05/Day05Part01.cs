@@ -1,8 +1,8 @@
 using System.Text.RegularExpressions;
-using AdventOfCode2022.Common;
+using AdventOfCode.Common;
 using SimpleMind.AdventOfCode;
 
-namespace AdventOfCode2022;
+namespace AdventOfCode.Year2022;
 
 public class Day05Part01 : Puzzle<CargoShip>
 {
