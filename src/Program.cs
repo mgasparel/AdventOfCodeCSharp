@@ -1,3 +1,3 @@
 ﻿using SimpleMind.AdventOfCode;
 
-PuzzleRunnerBuilder.Build().Run(2024);
+PuzzleRunnerBuilder.Build().Run(2024, 3);
