@@ -5,6 +5,7 @@ namespace AdventOfCode.Year2024;
 public class Day02Part01 : Puzzle<List<Report>>
 {
     public override string SampleAnswer => "2";
+    protected virtual bool Dampen => false;
 
     protected override List<Report> ParseInputImpl(string rawInput)
     {
@@ -16,5 +17,5 @@ public class Day02Part01 : Puzzle<List<Report>>
     }
 
     protected override string SolveImpl(List<Report> parsedInput)
-        => parsedInput.Count(x => x.IsSafe()).ToString();
+        => parsedInput.Count(x => x.IsSafe(Dampen)).ToString();
 }

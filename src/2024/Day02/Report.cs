@@ -3,7 +3,6 @@ namespace AdventOfCode.Year2024;
 public class Report(int[] levels)
 {
     readonly int[] _levels = levels;
-
     public bool IsSafe(bool dampen)
     {
         if (IsSafe())
